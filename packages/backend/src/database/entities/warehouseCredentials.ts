@@ -7,6 +7,7 @@ export const warehouseTypes = [
     'redshift',
     'snowflake',
     'postgres',
+    'starrocks',
     'databricks',
     'trino',
 ] as const;

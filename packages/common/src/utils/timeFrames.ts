@@ -193,6 +193,39 @@ const postgresConfig: WarehouseConfig = {
     },
 };
 
+const starrocksConfig: WarehouseConfig = {
+    getSqlForTruncatedDate: (timeFrame, originalSql, _, startOfWeek) => {
+        if (timeFrame === TimeFrames.WEEK && isWeekDay(startOfWeek)) {
+            const intervalDiff = `${startOfWeek} days`;
+            return `(DATE_TRUNC('${timeFrame}', (${originalSql} - interval '${intervalDiff}')) + interval '${intervalDiff}')`;
+        }
+        return `DATE_TRUNC('${timeFrame}', ${originalSql})`;
+    },
+    getSqlForDatePart: (timeFrame: TimeFrames, originalSql: string) => {
+        const datePart = timeFrameToDatePartMap[timeFrame];
+        if (!datePart) {
+            throw new ParseError(`Cannot recognise date part for ${timeFrame}`);
+        }
+        return `DATE_PART('${datePart}', ${originalSql})`;
+    },
+    getSqlForDatePartName: (timeFrame: TimeFrames, originalSql: string) => {
+        // https://www.postgresql.org/docs/current/functions-formatting.html
+        const timeFrameExpressions: Record<TimeFrames, string | null> = {
+            ...nullTimeFrameMap,
+            [TimeFrames.DAY_OF_WEEK_NAME]: 'Day',
+            [TimeFrames.MONTH_NAME]: 'Month',
+            [TimeFrames.QUARTER_NAME]: '"Q"Q',
+        };
+        const formatExpression = timeFrameExpressions[timeFrame];
+        if (!formatExpression) {
+            throw new ParseError(
+                `Cannot recognise format expression for ${timeFrame}`,
+            );
+        }
+        return `TO_CHAR(${originalSql}, '${formatExpression}')`;
+    },
+};
+
 const databricksConfig: WarehouseConfig = {
     getSqlForTruncatedDate: (timeFrame, originalSql, _, startOfWeek) => {
         if (timeFrame === TimeFrames.WEEK && isWeekDay(startOfWeek)) {
@@ -268,6 +301,7 @@ const warehouseConfigs: Record<SupportedDbtAdapter, WarehouseConfig> = {
     [SupportedDbtAdapter.SNOWFLAKE]: snowflakeConfig,
     [SupportedDbtAdapter.REDSHIFT]: postgresConfig,
     [SupportedDbtAdapter.POSTGRES]: postgresConfig,
+    [SupportedDbtAdapter.STARROCKS]: starrocksConfig,
     [SupportedDbtAdapter.DATABRICKS]: databricksConfig,
     [SupportedDbtAdapter.TRINO]: trinoConfig,
 };

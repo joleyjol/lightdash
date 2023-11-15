@@ -62,6 +62,8 @@ const convertTimezone = (
             // TIMESTAMP WITH TIME ZONE: stored in utc. returns utc. convert from utc to target_tz
             // TIMESTAMP WITHOUT TIME ZONE: no tz. assume utc. convert from utc to target_tz
             return timestampSql;
+        case SupportedDbtAdapter.STARROCKS:
+            return timestampSql;
         case SupportedDbtAdapter.POSTGRES:
             // TIMESTAMP WITH TIME ZONE: stored as utc. returns in session tz. convert from session tz to target tz
             // TIMESTAMP WITHOUT TIME ZONE: no tz. assume default_source_tz. convert from default_source_tz to target_tz

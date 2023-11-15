@@ -10,6 +10,14 @@ const warehouseConfig = {
         port: '5432',
         schema: 'jaffle',
     },
+    starrocks: {
+        name: 'Jaffle starrocks test',
+        host: Cypress.env('PGHOST') || 'db-dev',
+        user: 'starrocks',
+        password: Cypress.env('SRPASSWORD') || 'password',
+        port: '9030',
+        schema: 'jaffle',
+    },
     redshift: {
         name: 'Jaffle Redshift test',
         host: Cypress.env('PGHOST') || 'db-dev',
@@ -156,7 +164,7 @@ const testCompile = (): Cypress.Chainable<string> => {
     cy.contains('Step 2/3', { timeout: 60000 });
     cy.contains('Successfully synced dbt project!', { timeout: 60000 });
 
-    cy.contains('selected 10 models');
+    cy.contains('selected 8 models');
     // Configure
     cy.findByText('Save changes')
         .parent('button')

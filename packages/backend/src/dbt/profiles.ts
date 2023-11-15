@@ -99,6 +99,20 @@ const credentialsTarget = (
                     [envVar('password')]: credentials.password,
                 },
             };
+        case WarehouseTypes.STARROCKS:
+            return {
+                target: {
+                    type: credentials.type,
+                    host: credentials.host,
+                    port: credentials.port,
+                    schema: credentials.schema,
+                    threads: credentials.threads,
+                },
+                environment: {
+                    [envVar('user')]: credentials.user,
+                    [envVar('password')]: credentials.password,
+                },
+            };
         case WarehouseTypes.TRINO:
             return {
                 target: {

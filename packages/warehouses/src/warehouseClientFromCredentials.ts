@@ -7,6 +7,7 @@ import { WarehouseClient } from './types';
 import { BigqueryWarehouseClient } from './warehouseClients/BigqueryWarehouseClient';
 import { DatabricksWarehouseClient } from './warehouseClients/DatabricksWarehouseClient';
 import { PostgresWarehouseClient } from './warehouseClients/PostgresWarehouseClient';
+import { StarrocksWarehouseClient } from './warehouseClients/StarrocksWarehouseClient';
 import { RedshiftWarehouseClient } from './warehouseClients/RedshiftWarehouseClient';
 import { SnowflakeWarehouseClient } from './warehouseClients/SnowflakeWarehouseClient';
 import { TrinoWarehouseClient } from './warehouseClients/TrinoWarehouseClient';
@@ -19,6 +20,8 @@ export const warehouseClientFromCredentials = (
             return new SnowflakeWarehouseClient(credentials);
         case WarehouseTypes.POSTGRES:
             return new PostgresWarehouseClient(credentials);
+        case WarehouseTypes.STARROCKS:
+            return new StarrocksWarehouseClient(credentials);
         case WarehouseTypes.REDSHIFT:
             return new RedshiftWarehouseClient(credentials);
         case WarehouseTypes.BIGQUERY:

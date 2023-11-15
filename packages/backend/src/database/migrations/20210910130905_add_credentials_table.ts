@@ -8,6 +8,7 @@ export async function up(knex: Knex): Promise<void> {
         { warehouse_type: 'bigquery' },
         { warehouse_type: 'redshift' },
         { warehouse_type: 'postgres' },
+        { warehouse_type: 'starrocks' },
         { warehouse_type: 'snowflake' },
     ]);
     await knex.schema.createTable('warehouse_credentials', (tableBuilder) => {

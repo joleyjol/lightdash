@@ -59,6 +59,12 @@ const WarehouseTypeLabels: WarehouseLabel[] = [
         image: PostgressLogo,
     },
     {
+        label: 'Starrocks',
+        key: WarehouseTypes.STARROCKS,
+        iconType: 'image',
+        image: PostgressLogo,
+    },
+    {
         label: 'Redshift',
         key: WarehouseTypes.REDSHIFT,
         iconType: 'image',

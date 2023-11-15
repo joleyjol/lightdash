@@ -23,6 +23,7 @@ export enum SupportedDbtAdapter {
     SNOWFLAKE = 'snowflake',
     REDSHIFT = 'redshift',
     POSTGRES = 'postgres',
+    STARROCKS = 'starrocks',
     TRINO = 'trino',
 }
 
@@ -128,6 +129,7 @@ export const normaliseModelDatabase = (
                 );
             }
             return { ...model, database: model.database as string };
+        case SupportedDbtAdapter.STARROCKS:
         case SupportedDbtAdapter.DATABRICKS:
             return { ...model, database: model.database || 'DEFAULT' };
         default:

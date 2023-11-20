@@ -99,12 +99,12 @@ export const convertStarrocksSchema = (
     target: Target,
 ): CreateStarrocksCredentials => {
     const validate = ajv.compile<StarrocksTarget>(starrocksSchema);
-        const user = target.user || target.username;
-        if (!user) {
-            throw new ParseError(
-                `Starrocks target requires a username: "username"`,
-            );
-        }
+    const user = target.user || target.username;
+    if (!user) {
+        throw new ParseError(
+            `Starrocks target requires a username: "username"`,
+        );
+    }
     if (validate(target)) {
         const password = target.pass || target.password;
         if (!password) {
@@ -113,6 +113,11 @@ export const convertStarrocksSchema = (
             );
         }
         const dbname = target.dbname || target.database;
+        if (!dbname) {
+            throw new ParseError(
+                `Starrocks target requires a database name: "database"`,
+            );
+        }
         return {
             type: WarehouseTypes.STARROCKS,
             host: target.host,
@@ -122,7 +127,11 @@ export const convertStarrocksSchema = (
             schema: target.schema,
         };
     }
-    const errs = betterAjvErrors(starrocksSchema, target, validate.errors || []);
+    const errs = betterAjvErrors(
+        starrocksSchema,
+        target,
+        validate.errors || [],
+    );
     throw new ParseError(
         `Couldn't read profiles.yml file for ${target.type}:\n${errs}`,
     );

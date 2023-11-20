@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nodejs \
     python3 \
     python3-psycopg2 \
+    python3-pymysql \
     python3-venv \
     python3-dev \
     software-properties-common \
@@ -28,7 +29,8 @@ RUN /usr/local/dbt1.4/bin/pip install \
     "dbt-bigquery~=1.4.0" \
     "dbt-databricks~=1.4.0" \
     "dbt-trino~=1.4.0" \
-    "psycopg2-binary==2.8.6"
+    "psycopg2-binary==2.8.6" \
+    "pymysql==0.9.3"
 
 RUN ln -s /usr/local/dbt1.4/bin/dbt /usr/local/bin/dbt
 
@@ -40,7 +42,8 @@ RUN /usr/local/dbt1.5/bin/pip install \
     "dbt-bigquery~=1.5.0" \
     "dbt-databricks~=1.5.0" \
     "dbt-trino==1.5.0" \
-    "psycopg2-binary==2.8.6"
+    "psycopg2-binary==2.8.6" \
+    "pymysql==0.9.3"
 RUN ln -s /usr/local/dbt1.5/bin/dbt /usr/local/bin/dbt1.5
 
 RUN python3 -m venv /usr/local/dbt1.6
@@ -50,8 +53,10 @@ RUN /usr/local/dbt1.6/bin/pip install \
     "dbt-snowflake~=1.6.0" \
     "dbt-bigquery~=1.6.0" \
     "dbt-databricks~=1.6.0" \
+    "dbt-starrocks~=1.4.0" \
     "dbt-trino==1.6.0" \
-    "psycopg2-binary==2.8.6"
+    "psycopg2-binary==2.8.6" \
+    "pymysql==0.9.3"
 RUN ln -s /usr/local/dbt1.6/bin/dbt /usr/local/bin/dbt1.6
 
 # -----------------------------

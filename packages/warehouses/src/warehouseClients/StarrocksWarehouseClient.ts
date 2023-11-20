@@ -174,7 +174,7 @@ export class StarrocksClient<
             });
 
             pool.on('error', (err) => {
-                console.error(`Postgres pool error ${err.message}`);
+                console.error(`Starrocks pool error ${err.message}`);
                 reject(err);
             });
 
@@ -182,7 +182,7 @@ export class StarrocksClient<
                 // On each new client initiated, need to register for error(this is a serious bug on pg, the client throw errors although it should not)
                 _client.on('error', (err: Error) => {
                     console.error(
-                        `Postgres client connect error ${err.message}`,
+                        `Starrocks client connect error ${err.message}`,
                     );
                     reject(err);
                 });
@@ -200,7 +200,7 @@ export class StarrocksClient<
                 }
 
                 client.on('error', (e) => {
-                    console.error(`Postgres client error ${e.message}`);
+                    console.error(`Starrocks client error ${e.message}`);
                     reject(e);
                     done();
                 });
@@ -250,12 +250,12 @@ export class StarrocksClient<
         })
             .catch((e) => {
                 throw new WarehouseQueryError(
-                    `Error running postgres query: ${e}`,
+                    `Error running starrocks query: ${e}`,
                 );
             })
             .finally(() => {
                 pool?.end().catch(() => {
-                    console.info('Failed to end postgres pool');
+                    console.info('Failed to end starrocks pool');
                 });
             });
     }
